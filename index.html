@@ -3,32 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>KeyboardStart</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header></header>
-<main id="x">
-
+<main>
+    <div class="wrapper" id="main"></div>
 </main>
 <footer></footer>
 
 <script>
     var keys = {
-        0:['q','w','e','r','t','y','u','i','o','p'],
-        1:['a','s','d','f','g','h','j','k','l'],
-        2:['z','x','c','v','b','n','m'],
-        length:3
+        0: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+        1: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        2: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+        length: 3
     };
 
     var hash = {
-        z:'http://zhihu.com',
-        j:'http://juejin.im',
-        e:'http://ele.me',
-        a:'http://alibaba.com'
+        z: 'http://zhihu.com',
+        j: 'http://juejin.im',
+        e: 'http://ele.me',
+        a: 'http://alibaba.com',
+        q: 'http://qq.com'
     };
 
-    div1 = document.createElement('div');
-    x.appendChild(div1);
+    //取出LocalStorage'zzz'中的对应内容
+    hashInLocalStorage = JSON.parse(localStorage.getItem('zzz')||'null');
+    if(hashInLocalStorage){
+        hash = hashInLocalStorage;
+    }
 
+
+    //遍历keys，生成kbd标签
+    index = 0;
+    while (index < keys['length']) {
+        div1 = document.createElement('div');
+        main.appendChild(div1);
+        row = keys[index];//第1  2  3 个数组
+        index2 = 0;
+        while (index2 < row.length) {
+            kbd = document.createElement('kbd');
+            kbd.textContent = row[index2];
+            buttonX = document.createElement('button');//buttonX是一个容器,在这26次循环中，只有一个buttonX
+            buttonX.textContent = 'Edit';
+            buttonX.id = row[index2];
+            buttonX.onclick = function (ev) {
+                pressKey = ev.target['id'];//被用户点击的按钮 q w e ...
+                newWebsite = prompt('请输入网址');
+                hash[pressKey] = newWebsite;//hash变更
+                localStorage.setItem('zzz',JSON.stringify(hash));// localStorage有很多桶，目前hash存于zzz桶里，做备份的过程
+                console.log(hash);
+            };
+            kbd.appendChild(buttonX);
+            div1.appendChild(kbd);
+            index2++;
+        }
+        index++;
+    }
+
+
+    document.onkeypress = function (ev) {
+        key = ev['key'];//用户按了什么键
+        website = hash[key];//拿到键对应的网站
+        window.open(website,'_blank');//新窗口打开网站
+    }
 
 
 </script>
