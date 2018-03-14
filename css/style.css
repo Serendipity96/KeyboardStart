@@ -3,7 +3,7 @@
     padding: 0;
 }
 body{
-    background: grey url('../img/wall.png') no-repeat center center ;
+    background: grey url('../img/wall.jpg') no-repeat center center ;
     /*background-size: cover;*/
 }
 a {
